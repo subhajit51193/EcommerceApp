@@ -39,6 +39,12 @@ public class User {
              inverseJoinColumns = @JoinColumn(name = "role_id"))
   private Set<Role> roles = new HashSet<>();
   
+  @OneToMany(cascade = CascadeType.ALL)
+  private List<Product> cart;
+  
+  @OneToOne(optional = false,cascade = CascadeType.ALL)
+  private Wallet wallet;
+  
 //  @OneToMany(mappedBy = "user")
 //  private List<Post> posts;
 
