@@ -20,7 +20,7 @@ public class Wallet {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer walletId;
-	private Integer balance;
+	private Double balance;
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	private User user;

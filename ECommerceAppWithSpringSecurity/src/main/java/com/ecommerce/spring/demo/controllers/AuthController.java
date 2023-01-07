@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ecommerce.spring.demo.model.ERole;
 import com.ecommerce.spring.demo.model.Role;
 import com.ecommerce.spring.demo.model.User;
+import com.ecommerce.spring.demo.model.Wallet;
 import com.ecommerce.spring.demo.payload.request.LoginRequest;
 import com.ecommerce.spring.demo.payload.request.SignupRequest;
 import com.ecommerce.spring.demo.payload.response.MessageResponse;
@@ -95,6 +96,12 @@ public class AuthController {
 
     Set<String> strRoles = signUpRequest.getRole();
     Set<Role> roles = new HashSet<>();
+//    ------------------
+    //create new wallet for user
+    Wallet wallet = new Wallet();
+    wallet.setBalance(0.0);
+    user.setWallet(wallet);
+//    --------------------
 
     if (strRoles == null) {
       Role userRole = roleRepository.findByName(ERole.ROLE_USER)
@@ -135,4 +142,6 @@ public class AuthController {
     return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString())
         .body(new MessageResponse("You've been signed out!"));
   }
+  
+  
 }

@@ -97,6 +97,22 @@ public class User {
     this.roles = roles;
   }
 
+	public List<Product> getCart() {
+		return cart;
+	}
+	
+	public void setCart(List<Product> cart) {
+		this.cart = cart;
+	}
+	
+	public Wallet getWallet() {
+		return wallet;
+	}
+	
+	public void setWallet(Wallet wallet) {
+		this.wallet = wallet;
+	}
+
   
   
   
