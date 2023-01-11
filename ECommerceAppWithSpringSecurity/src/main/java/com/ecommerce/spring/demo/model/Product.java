@@ -11,7 +11,7 @@ import lombok.Data;
 import lombok.ToString;
 
 @Entity
-@Data
+
 @ToString
 public class Product {
 
@@ -48,6 +48,86 @@ public class Product {
 		this.productId = productId;
 		this.productName = productName;
 		this.category = category;
+		this.price = price;
+	}
+
+
+
+
+
+	public Long getProductId() {
+		return productId;
+	}
+
+
+
+
+
+	public void setProductId(Long productId) {
+		this.productId = productId;
+	}
+
+
+
+
+
+	public String getProductName() {
+		return productName;
+	}
+
+
+
+
+
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+
+
+
+
+
+	public String getCategory() {
+		return category;
+	}
+
+
+
+
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+
+
+
+
+	public Long getQuantity() {
+		return quantity;
+	}
+
+
+
+
+
+	public void setQuantity(Long quantity) {
+		this.quantity = quantity;
+	}
+
+
+
+
+
+	public Double getPrice() {
+		return price;
+	}
+
+
+
+
+
+	public void setPrice(Double price) {
 		this.price = price;
 	}
 	

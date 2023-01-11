@@ -34,12 +34,14 @@ public class AdminController {
 	}
 	
 	@DeleteMapping("/deleteProduct/{productId}")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<String> deleteProduct(@PathVariable("productId") Long ProductId) throws ProductException, UserException{
 		String res = productService.deleteProduct(ProductId);
 		return new ResponseEntity<String>(res,HttpStatus.ACCEPTED);
 	}
 	
 	@PutMapping("/updateProduct")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<String> updateProduct(@RequestBody Product product) throws UserException, ProductException{
 		String res = productService.updateProduct(product);
 		return new ResponseEntity<String>(res,HttpStatus.ACCEPTED);
