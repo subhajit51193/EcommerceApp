@@ -11,8 +11,10 @@ import org.springframework.stereotype.Service;
 
 import com.ecommerce.spring.demo.exceptions.ProductException;
 import com.ecommerce.spring.demo.exceptions.UserException;
+import com.ecommerce.spring.demo.model.Cart;
 import com.ecommerce.spring.demo.model.Product;
 import com.ecommerce.spring.demo.model.User;
+import com.ecommerce.spring.demo.repository.CartRepository;
 import com.ecommerce.spring.demo.repository.ProductRepository;
 import com.ecommerce.spring.demo.repository.UserRepository;
 
@@ -25,8 +27,11 @@ public class UserServiceImpl implements UserService{
 	@Autowired
 	private ProductRepository productRepository;
 	
+	@Autowired
+	private CartRepository cartRepository;
+
 	@Override
-	public List<Product> addToCart(Long productId) throws UserException, ProductException {
+	public String addToCart(Long productId, Long userId, Long quantity) throws UserException, ProductException {
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (!(authentication instanceof AnonymousAuthenticationToken)) {
@@ -36,24 +41,21 @@ public class UserServiceImpl implements UserService{
 				throw new UserException("User not found please try again...");
 			}
 			else {
-				
 				User user = opt.get();
 				Optional<Product> opt2 = productRepository.findById(productId);
 				if (opt2.isEmpty()) {
-					throw new ProductException("Product not found or may have been sold...");
+					throw new ProductException("Product not found or may have been sold out");
 				}
 				else {
 					Product product = opt2.get();
-					if (user.getCart().contains(product)) {
-						throw new ProductException("Product already added to cart...");
-					}
-					else {
-						user.getCart().add(product);
-						return user.getCart();
-						
-
-					}
-									}
+					Cart cart = new Cart();
+					cart.setProduct(product);
+					cart.setUser(user);
+					cart.setQuantity(quantity);
+					cartRepository.save(cart);
+					return "product has been added to cart";
+				}
+				
 			}
 		}
 		else {
@@ -62,7 +64,7 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public String deleteFromCart(Long productId) throws UserException, ProductException {
+	public List<Cart> getItemsOfCart() throws UserException {
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (!(authentication instanceof AnonymousAuthenticationToken)) {
@@ -72,24 +74,19 @@ public class UserServiceImpl implements UserService{
 				throw new UserException("User not found please try again...");
 			}
 			else {
-				
 				User user = opt.get();
-				Optional<Product> opt2 = productRepository.findById(productId);
-				if (opt2.isEmpty()) {
-					throw new ProductException("Product not found or may have been removed already...");
-				}
-				else {
-					Product product = opt2.get();
-					user.getCart().remove(product);
-					return "Item removed from cart...";
-					
-				}
+				List<Cart> list = cartRepository.findByUserId(user.getId());
+				
+				return list;
+				
 			}
 		}
 		else {
 			throw new UserException("Please Login and try again!!!");
 		}
 	}
+	
+	
 
 	
 }

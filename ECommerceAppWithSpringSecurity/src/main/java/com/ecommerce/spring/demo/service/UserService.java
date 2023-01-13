@@ -4,11 +4,12 @@ import java.util.List;
 
 import com.ecommerce.spring.demo.exceptions.ProductException;
 import com.ecommerce.spring.demo.exceptions.UserException;
+import com.ecommerce.spring.demo.model.Cart;
 import com.ecommerce.spring.demo.model.Product;
 
 public interface UserService {
 
-	public List<Product> addToCart(Long productId)throws UserException,ProductException;
+	public String  addToCart(Long productId,Long userId,Long quantity)throws UserException,ProductException;
 	
-	public String deleteFromCart(Long productId)throws UserException,ProductException;
+	public List<Cart> getItemsOfCart() throws UserException;
 }

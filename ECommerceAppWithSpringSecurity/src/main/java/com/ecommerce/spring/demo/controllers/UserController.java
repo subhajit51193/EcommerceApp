@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ecommerce.spring.demo.exceptions.ProductException;
 import com.ecommerce.spring.demo.exceptions.UserException;
+import com.ecommerce.spring.demo.model.Cart;
 import com.ecommerce.spring.demo.model.Product;
 import com.ecommerce.spring.demo.service.UserService;
 
@@ -23,15 +24,16 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	@GetMapping("/additem/{productId}")
-	public ResponseEntity<List<Product>> addToCart(@PathVariable("productId") Long productId) throws UserException, ProductException{
-		List<Product> cart = userService.addToCart(productId);
-		return new ResponseEntity<List<Product>>(cart,HttpStatus.ACCEPTED);
-	}
-	
-	@DeleteMapping("/removeitem/{productId}")
-	public ResponseEntity<String> deleteFromCartr(@PathVariable("productId") Long productId) throws UserException, ProductException{
-		String res = userService.deleteFromCart(productId);
+	@GetMapping("/addTocart/{productId}/{userId}/{quantity}")
+	public ResponseEntity<String> addToCart(@PathVariable("productId") Long productId,@PathVariable("userId") Long userId,@PathVariable("quantity") Long quantity) throws UserException, ProductException{
+		String res = userService.addToCart(productId, userId, quantity);
 		return new ResponseEntity<String>(res,HttpStatus.ACCEPTED);
 	}
+	
+	@GetMapping("/cartItems")
+	public ResponseEntity<List<Cart>> getItemsOfCart() throws UserException{
+		List<Cart> list = userService.getItemsOfCart();
+		return new ResponseEntity<List<Cart>>(list,HttpStatus.ACCEPTED);
+	}
+	
 }
