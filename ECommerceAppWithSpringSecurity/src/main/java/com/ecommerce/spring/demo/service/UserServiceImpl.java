@@ -75,7 +75,7 @@ public class UserServiceImpl implements UserService{
 			}
 			else {
 				User user = opt.get();
-				List<Cart> list = cartRepository.findByUserId(user.getId());
+				List<Cart> list = cartRepository.findByUser(user);
 				
 				return list;
 				
