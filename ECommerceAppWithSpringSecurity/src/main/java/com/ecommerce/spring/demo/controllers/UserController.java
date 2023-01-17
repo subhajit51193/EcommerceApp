@@ -24,9 +24,9 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	@GetMapping("/addTocart/{productId}/{userId}/{quantity}")
-	public ResponseEntity<String> addToCart(@PathVariable("productId") Long productId,@PathVariable("userId") Long userId,@PathVariable("quantity") Long quantity) throws UserException, ProductException{
-		String res = userService.addToCart(productId, userId, quantity);
+	@GetMapping("/addTocart/{productId}/{quantity}")
+	public ResponseEntity<String> addToCart(@PathVariable("productId") Long productId,@PathVariable("quantity") Long quantity) throws UserException, ProductException{
+		String res = userService.addToCart(productId, quantity);
 		return new ResponseEntity<String>(res,HttpStatus.ACCEPTED);
 	}
 	
@@ -34,6 +34,18 @@ public class UserController {
 	public ResponseEntity<List<Cart>> getItemsOfCart() throws UserException{
 		List<Cart> list = userService.getItemsOfCart();
 		return new ResponseEntity<List<Cart>>(list,HttpStatus.ACCEPTED);
+	}
+	
+	@DeleteMapping("/remove/{productId}")
+	public ResponseEntity<String> removeFromCart(@PathVariable("productId") Long productId) throws UserException, ProductException{
+		String res = userService.removefromcart(productId);
+		return new ResponseEntity<String>(res,HttpStatus.ACCEPTED);
+	}
+	
+	@GetMapping("/allProducts")
+	public ResponseEntity<List<Product>> getAllProducts(){
+		List<Product> products = userService.getAllProducts();
+		return new ResponseEntity<List<Product>>(products,HttpStatus.ACCEPTED);
 	}
 	
 }

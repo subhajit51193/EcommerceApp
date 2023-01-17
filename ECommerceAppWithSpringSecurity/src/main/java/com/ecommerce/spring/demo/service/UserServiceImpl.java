@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService{
 	private CartRepository cartRepository;
 
 	@Override
-	public String addToCart(Long productId, Long userId, Long quantity) throws UserException, ProductException {
+	public String addToCart(Long productId, Long quantity) throws UserException, ProductException {
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (!(authentication instanceof AnonymousAuthenticationToken)) {
@@ -85,8 +85,51 @@ public class UserServiceImpl implements UserService{
 			throw new UserException("Please Login and try again!!!");
 		}
 	}
-	
-	
+
+	@Override
+	public String removefromcart(Long productId) throws UserException, ProductException {
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (!(authentication instanceof AnonymousAuthenticationToken)) {
+			String currentUserName = authentication.getName();
+			Optional<User> opt = userRepository.findByUsername(currentUserName);
+			if (opt.isEmpty()) {
+				throw new UserException("User not found please try again...");
+			}
+			else {
+				User user = opt.get();
+				Optional<Product> opt2 = productRepository.findById(productId);
+				if (opt2.isEmpty()) {
+					throw new ProductException("Product not found or may have already been removed from the cart..");
+				}
+				else {
+					Product product = opt2.get();
+					List<Cart> list = cartRepository.findByUser(user);
+					for (Cart cart : list) {
+						if(cart.getProduct().equals(product)) {
+							cartRepository.delete(cart);
+							return product.getProductName()+"  has been removed from the cart";
+						}
+					}
+					throw new ProductException("Product not found or may have already been removed from the cart..");
+					
+				}
+				
+			}
+		}
+		else {
+			throw new UserException("Please Login and try again!!!");
+		}
+	}
+
+	@Override
+	public List<Product> getAllProducts() {
+		
+		List<Product> list = productRepository.findAll();
+		return list;
+	}
+
+		
 
 	
 }

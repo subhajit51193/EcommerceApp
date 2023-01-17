@@ -9,7 +9,11 @@ import com.ecommerce.spring.demo.model.Product;
 
 public interface UserService {
 
-	public String  addToCart(Long productId,Long userId,Long quantity)throws UserException,ProductException;
+	public String  addToCart(Long productId,Long quantity)throws UserException,ProductException;
 	
 	public List<Cart> getItemsOfCart() throws UserException;
+	
+	public String removefromcart(Long productId) throws UserException,ProductException;
+	
+	public List<Product> getAllProducts();
 }
