@@ -13,9 +13,11 @@ import com.ecommerce.spring.demo.exceptions.ProductException;
 import com.ecommerce.spring.demo.exceptions.UserException;
 import com.ecommerce.spring.demo.model.Cart;
 import com.ecommerce.spring.demo.model.Product;
+import com.ecommerce.spring.demo.model.Review;
 import com.ecommerce.spring.demo.model.User;
 import com.ecommerce.spring.demo.repository.CartRepository;
 import com.ecommerce.spring.demo.repository.ProductRepository;
+import com.ecommerce.spring.demo.repository.ReviewRepository;
 import com.ecommerce.spring.demo.repository.UserRepository;
 
 @Service
@@ -29,6 +31,9 @@ public class UserServiceImpl implements UserService{
 	
 	@Autowired
 	private CartRepository cartRepository;
+	
+	@Autowired
+	private ReviewRepository reviewRepository;
 
 	@Override
 	public String addToCart(Long productId, Long quantity) throws UserException, ProductException {
@@ -127,6 +132,50 @@ public class UserServiceImpl implements UserService{
 		
 		List<Product> list = productRepository.findAll();
 		return list;
+	}
+
+	@Override
+	public Review giveReview(Long productId,Review review) throws UserException, ProductException {
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (!(authentication instanceof AnonymousAuthenticationToken)) {
+			String currentUserName = authentication.getName();
+			Optional<User> opt = userRepository.findByUsername(currentUserName);
+			if (opt.isEmpty()) {
+				throw new UserException("User not found please try again...");
+			}
+			else {
+				User user = opt.get();
+				Optional<Product> opt2 = productRepository.findById(productId);
+				if (opt2.isEmpty()) {
+					throw new ProductException("Product not found or may have been sold out");
+				}
+				else {
+					Product product = opt2.get();
+					Review givenReview = new Review();
+					givenReview.setRating(review.getRating());
+					givenReview.setSubject(review.getSubject());
+					givenReview.setDescription(review.getDescription());
+					givenReview.setProduct(product);
+					reviewRepository.save(givenReview);
+					product.getReviews().add(givenReview);
+					if (product.getAverageRating() != null) {
+						product.setAverageRating((product.getAverageRating()+givenReview.getRating())/product.getReviews().size());
+					}
+					else {
+						product.setAverageRating(givenReview.getRating());
+						
+					}
+					
+					productRepository.save(product);
+					return givenReview;
+				}
+				
+			}
+		}
+		else {
+			throw new UserException("Please Login and try again!!!");
+		}
 	}
 
 		

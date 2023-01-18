@@ -46,6 +46,7 @@ public class User {
   @OneToOne(optional = false,cascade = CascadeType.ALL)
   private Wallet wallet;
   
+  
   public User() {
   }
 

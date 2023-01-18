@@ -1,9 +1,12 @@
 package com.ecommerce.spring.demo.model;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -28,8 +31,15 @@ public class Product {
 	@NotNull
 	private Long quantity;
 	
+	
+	
 	@NotNull(message = "Price not be null")
 	private Double price;
+	
+	private Integer averageRating;
+	
+	@OneToMany
+	private List<Review> reviews;
 	
 	
 	
@@ -129,6 +139,38 @@ public class Product {
 
 	public void setPrice(Double price) {
 		this.price = price;
+	}
+
+
+
+
+
+	public List<Review> getReviews() {
+		return reviews;
+	}
+
+
+
+
+
+	public void setReviews(List<Review> reviews) {
+		this.reviews = reviews;
+	}
+
+
+
+
+
+	public Integer getAverageRating() {
+		return averageRating;
+	}
+
+
+
+
+
+	public void setAverageRating(Integer averageRating) {
+		this.averageRating = averageRating;
 	}
 	
 	

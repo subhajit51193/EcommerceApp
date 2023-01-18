@@ -6,6 +6,7 @@ import com.ecommerce.spring.demo.exceptions.ProductException;
 import com.ecommerce.spring.demo.exceptions.UserException;
 import com.ecommerce.spring.demo.model.Cart;
 import com.ecommerce.spring.demo.model.Product;
+import com.ecommerce.spring.demo.model.Review;
 
 public interface UserService {
 
@@ -16,4 +17,6 @@ public interface UserService {
 	public String removefromcart(Long productId) throws UserException,ProductException;
 	
 	public List<Product> getAllProducts();
+	
+	public Review giveReview(Long productId,Review review)throws UserException,ProductException;
 }

@@ -8,13 +8,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecommerce.spring.demo.exceptions.ProductException;
 import com.ecommerce.spring.demo.exceptions.UserException;
 import com.ecommerce.spring.demo.model.Cart;
 import com.ecommerce.spring.demo.model.Product;
+import com.ecommerce.spring.demo.model.Review;
 import com.ecommerce.spring.demo.service.UserService;
 
 @RestController
@@ -48,4 +52,9 @@ public class UserController {
 		return new ResponseEntity<List<Product>>(products,HttpStatus.ACCEPTED);
 	}
 	
+	@PostMapping("/giveReview/{id}")
+	public ResponseEntity<Review> giveReviewForProduct(@RequestBody Review review,@PathVariable("id") Long id) throws UserException, ProductException{
+		Review givenReview = userService.giveReview(id, review);
+		return new ResponseEntity<Review>(givenReview,HttpStatus.ACCEPTED);
+	}
 }
