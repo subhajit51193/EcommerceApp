@@ -157,16 +157,27 @@ public class UserServiceImpl implements UserService{
 					givenReview.setSubject(review.getSubject());
 					givenReview.setDescription(review.getDescription());
 					givenReview.setProduct(product);
-					reviewRepository.save(givenReview);
-					product.getReviews().add(givenReview);
+					givenReview.setUser(user);
 					if (product.getAverageRating() != null) {
-						product.setAverageRating((product.getAverageRating()+givenReview.getRating())/product.getReviews().size());
+						List<Review> rev = product.getReviews();
+						int sum = 0;
+						for (Review re : rev) {
+							sum = sum + re.getRating();
+						}
+						product.setAverageRating(sum+givenReview.getRating()/product.getReviews().size());
 					}
 					else {
 						product.setAverageRating(givenReview.getRating());
 						
 					}
+					user.getReviews().add(givenReview);
 					
+					product.getReviews().add(givenReview);
+					
+//					productRepository.save(product);
+					
+					reviewRepository.save(givenReview);
+					userRepository.save(user);
 					productRepository.save(product);
 					return givenReview;
 				}

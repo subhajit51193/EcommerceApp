@@ -38,7 +38,7 @@ public class Product {
 	
 	private Integer averageRating;
 	
-	@OneToMany
+	@OneToMany(mappedBy = "product")
 	private List<Review> reviews;
 	
 	

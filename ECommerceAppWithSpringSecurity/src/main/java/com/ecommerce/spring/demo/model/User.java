@@ -46,6 +46,10 @@ public class User {
   @OneToOne(optional = false,cascade = CascadeType.ALL)
   private Wallet wallet;
   
+
+  @OneToMany(mappedBy = "user")
+  private List<Review> reviews;
+  
   
   public User() {
   }
