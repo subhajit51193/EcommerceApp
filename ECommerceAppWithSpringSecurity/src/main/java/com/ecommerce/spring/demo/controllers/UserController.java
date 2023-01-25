@@ -63,4 +63,10 @@ public class UserController {
 		List<Review> reviews = userService.getReviewsByUser();
 		return new ResponseEntity<List<Review>>(reviews,HttpStatus.ACCEPTED);
 	}
+	
+	@GetMapping("/sortByPrice")
+	public ResponseEntity<List<Product>> sortByPrice(){
+		List<Product> list = userService.sortProductByPrice();
+		return new ResponseEntity<List<Product>>(list,HttpStatus.ACCEPTED);
+	}
 }

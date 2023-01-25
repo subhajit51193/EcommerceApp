@@ -22,4 +22,6 @@ public interface UserService {
 	public Review giveReview(Long productId,Review review)throws UserException,ProductException;
 	
 	public List<Review> getReviewsByUser() throws UserException;
+	
+	public List<Product> sortProductByPrice();
 }

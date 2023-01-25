@@ -206,6 +206,13 @@ public class UserServiceImpl implements UserService{
 		}
 	}
 
+	@Override
+	public List<Product> sortProductByPrice() {
+		
+		List<Product> products = productRepository.sortByPrice();
+		return products;
+	}
+
 		
 
 	
