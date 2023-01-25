@@ -57,4 +57,10 @@ public class UserController {
 		Review givenReview = userService.giveReview(id, review);
 		return new ResponseEntity<Review>(givenReview,HttpStatus.ACCEPTED);
 	}
+	
+	@GetMapping("/allReviewsByUser")
+	public ResponseEntity<List<Review>> getReviewsByUser() throws UserException{
+		List<Review> reviews = userService.getReviewsByUser();
+		return new ResponseEntity<List<Review>>(reviews,HttpStatus.ACCEPTED);
+	}
 }

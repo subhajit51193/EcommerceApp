@@ -152,35 +152,52 @@ public class UserServiceImpl implements UserService{
 				}
 				else {
 					Product product = opt2.get();
-					Review givenReview = new Review();
-					givenReview.setRating(review.getRating());
-					givenReview.setSubject(review.getSubject());
-					givenReview.setDescription(review.getDescription());
-					givenReview.setProduct(product);
-					givenReview.setUser(user);
+					review.setProduct(product);
+					review.setUser(user);
 					if (product.getAverageRating() != null) {
 						List<Review> rev = product.getReviews();
 						int sum = 0;
 						for (Review re : rev) {
 							sum = sum + re.getRating();
 						}
-						product.setAverageRating(sum+givenReview.getRating()/product.getReviews().size());
+						product.setAverageRating(sum+review.getRating()/product.getReviews().size());
 					}
 					else {
-						product.setAverageRating(givenReview.getRating());
+						product.setAverageRating(review.getRating());
 						
 					}
-					user.getReviews().add(givenReview);
+					user.getReviews().add(review);
 					
-					product.getReviews().add(givenReview);
+					product.getReviews().add(review);
 					
-//					productRepository.save(product);
 					
-					reviewRepository.save(givenReview);
+					reviewRepository.save(review);
 					userRepository.save(user);
 					productRepository.save(product);
-					return givenReview;
+					return review;
 				}
+				
+			}
+		}
+		else {
+			throw new UserException("Please Login and try again!!!");
+		}
+	}
+
+	@Override
+	public List<Review> getReviewsByUser() throws UserException {
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (!(authentication instanceof AnonymousAuthenticationToken)) {
+			String currentUserName = authentication.getName();
+			Optional<User> opt = userRepository.findByUsername(currentUserName);
+			if (opt.isEmpty()) {
+				throw new UserException("User not found please try again...");
+			}
+			else {
+				User user = opt.get();
+				List<Review> reviews = reviewRepository.findByUser(user);
+				return reviews;
 				
 			}
 		}
