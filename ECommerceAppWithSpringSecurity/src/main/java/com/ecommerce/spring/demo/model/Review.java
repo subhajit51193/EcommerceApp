@@ -29,7 +29,6 @@ public class Review {
 	private String description;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JsonIgnore
 	private Product product;
 	
 	@ManyToOne

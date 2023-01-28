@@ -6,9 +6,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 import lombok.ToString;
@@ -39,6 +43,7 @@ public class Product {
 	private Integer averageRating;
 	
 	@OneToMany(mappedBy = "product")
+	@JsonIgnore
 	private List<Review> reviews;
 	
 	

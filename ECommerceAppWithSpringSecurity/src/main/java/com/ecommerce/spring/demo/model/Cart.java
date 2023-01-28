@@ -1,6 +1,7 @@
 package com.ecommerce.spring.demo.model;
 
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -29,10 +30,21 @@ public class Cart {
 	
 	private Long quantity;
 	
+	@ManyToOne
+	@JoinColumn(name = "orderId")
+	@JsonIgnore
+	private Order order;
+	
+	
+	
+	
 	public Cart() {
 		// TODO Auto-generated constructor stub
 	}
 
+	
+
+	
 	public Cart(Long cartId, Product product, User user, Long quantity) {
 		super();
 		this.cartId = cartId;
@@ -41,7 +53,9 @@ public class Cart {
 		this.quantity = quantity;
 	}
 
-	
+
+
+
 	public Cart(Product product, Long quantity) {
 		super();
 		this.product = product;
@@ -79,6 +93,12 @@ public class Cart {
 	public void setQuantity(Long quantity) {
 		this.quantity = quantity;
 	}
+
+
+
+
+	
+	
 	
 	
 }

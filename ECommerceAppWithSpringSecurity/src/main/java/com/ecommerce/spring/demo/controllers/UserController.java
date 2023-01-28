@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ecommerce.spring.demo.exceptions.ProductException;
 import com.ecommerce.spring.demo.exceptions.UserException;
 import com.ecommerce.spring.demo.model.Cart;
+import com.ecommerce.spring.demo.model.Order;
 import com.ecommerce.spring.demo.model.Product;
 import com.ecommerce.spring.demo.model.Review;
 import com.ecommerce.spring.demo.service.UserService;
@@ -68,5 +69,11 @@ public class UserController {
 	public ResponseEntity<List<Product>> sortByPrice(){
 		List<Product> list = userService.sortProductByPrice();
 		return new ResponseEntity<List<Product>>(list,HttpStatus.ACCEPTED);
+	}
+	
+	@GetMapping("/purchase")
+	public ResponseEntity<Order> purchase() throws UserException{
+		Order order = userService.purchaseItems();
+		return new ResponseEntity<Order>(order,HttpStatus.ACCEPTED);
 	}
 }

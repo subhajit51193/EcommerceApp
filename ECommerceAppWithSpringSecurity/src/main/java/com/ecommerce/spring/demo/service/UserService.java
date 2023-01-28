@@ -5,6 +5,7 @@ import java.util.List;
 import com.ecommerce.spring.demo.exceptions.ProductException;
 import com.ecommerce.spring.demo.exceptions.UserException;
 import com.ecommerce.spring.demo.model.Cart;
+import com.ecommerce.spring.demo.model.Order;
 import com.ecommerce.spring.demo.model.Product;
 import com.ecommerce.spring.demo.model.Review;
 import com.ecommerce.spring.demo.model.User;
@@ -24,4 +25,8 @@ public interface UserService {
 	public List<Review> getReviewsByUser() throws UserException;
 	
 	public List<Product> sortProductByPrice();
+	
+	public Order purchaseItems() throws UserException;
+	
+	
 }

@@ -12,10 +12,12 @@ import org.springframework.stereotype.Service;
 import com.ecommerce.spring.demo.exceptions.ProductException;
 import com.ecommerce.spring.demo.exceptions.UserException;
 import com.ecommerce.spring.demo.model.Cart;
+import com.ecommerce.spring.demo.model.Order;
 import com.ecommerce.spring.demo.model.Product;
 import com.ecommerce.spring.demo.model.Review;
 import com.ecommerce.spring.demo.model.User;
 import com.ecommerce.spring.demo.repository.CartRepository;
+import com.ecommerce.spring.demo.repository.OrderRepository;
 import com.ecommerce.spring.demo.repository.ProductRepository;
 import com.ecommerce.spring.demo.repository.ReviewRepository;
 import com.ecommerce.spring.demo.repository.UserRepository;
@@ -34,6 +36,9 @@ public class UserServiceImpl implements UserService{
 	
 	@Autowired
 	private ReviewRepository reviewRepository;
+	
+	@Autowired
+	private OrderRepository orderRepository;
 
 	@Override
 	public String addToCart(Long productId, Long quantity) throws UserException, ProductException {
@@ -211,6 +216,41 @@ public class UserServiceImpl implements UserService{
 		
 		List<Product> products = productRepository.sortByPrice();
 		return products;
+	}
+
+	@Override
+	public Order purchaseItems() throws UserException {
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (!(authentication instanceof AnonymousAuthenticationToken)) {
+			String currentUserName = authentication.getName();
+			Optional<User> opt = userRepository.findByUsername(currentUserName);
+			if (opt.isEmpty()) {
+				throw new UserException("User not found please try again...");
+			}
+			else {
+				User user = opt.get();
+				List<Cart> list = cartRepository.findByUser(user);
+				Double totalBill = 0.00;
+				for (Cart items: list) {
+					totalBill = totalBill + items.getProduct().getPrice();
+				}
+				
+				Order newOrder = new Order();
+				newOrder.setTotalBill(totalBill);
+				newOrder.setUser(user);
+				newOrder.setCart(list);
+				orderRepository.save(newOrder);
+				for (Cart items : list) {
+					cartRepository.delete(items);
+				}
+				return newOrder;
+				
+			}
+		}
+		else {
+			throw new UserException("Please Login and try again!!!");
+		}
 	}
 
 		
