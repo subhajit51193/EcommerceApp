@@ -4,11 +4,13 @@ import java.util.List;
 
 import com.ecommerce.spring.demo.exceptions.ProductException;
 import com.ecommerce.spring.demo.exceptions.UserException;
+import com.ecommerce.spring.demo.exceptions.WalletException;
 import com.ecommerce.spring.demo.model.Cart;
 import com.ecommerce.spring.demo.model.Order;
 import com.ecommerce.spring.demo.model.Product;
 import com.ecommerce.spring.demo.model.Review;
 import com.ecommerce.spring.demo.model.User;
+import com.ecommerce.spring.demo.model.Wallet;
 
 public interface UserService {
 
@@ -26,7 +28,9 @@ public interface UserService {
 	
 	public List<Product> sortProductByPrice();
 	
-	public Order purchaseItems() throws UserException;
+	public Order purchaseItems() throws UserException, WalletException, ProductException;
 	
+	public Double checkWalletBalance()throws UserException,WalletException;
 	
+	public Wallet addBalanceToWallet(Double amount)throws UserException;
 }

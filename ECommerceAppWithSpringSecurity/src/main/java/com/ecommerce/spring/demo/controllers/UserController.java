@@ -16,10 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ecommerce.spring.demo.exceptions.ProductException;
 import com.ecommerce.spring.demo.exceptions.UserException;
+import com.ecommerce.spring.demo.exceptions.WalletException;
 import com.ecommerce.spring.demo.model.Cart;
 import com.ecommerce.spring.demo.model.Order;
 import com.ecommerce.spring.demo.model.Product;
 import com.ecommerce.spring.demo.model.Review;
+import com.ecommerce.spring.demo.model.Wallet;
 import com.ecommerce.spring.demo.service.UserService;
 
 @RestController
@@ -72,8 +74,20 @@ public class UserController {
 	}
 	
 	@GetMapping("/purchase")
-	public ResponseEntity<Order> purchase() throws UserException{
+	public ResponseEntity<Order> purchase() throws UserException, WalletException, ProductException{
 		Order order = userService.purchaseItems();
 		return new ResponseEntity<Order>(order,HttpStatus.ACCEPTED);
+	}
+	
+	@GetMapping("/checkBalance")
+	public ResponseEntity<Double> checkBalance() throws UserException, WalletException{
+		Double bal = userService.checkWalletBalance();
+		return new ResponseEntity<Double>(bal,HttpStatus.ACCEPTED);
+	}
+	
+	@GetMapping("/addBalance")
+	public ResponseEntity<Wallet> addbalance(@RequestParam(required = false) Double amount) throws UserException{
+		Wallet wallet = userService.addBalanceToWallet(amount);
+		return new ResponseEntity<Wallet>(wallet,HttpStatus.ACCEPTED);
 	}
 }
