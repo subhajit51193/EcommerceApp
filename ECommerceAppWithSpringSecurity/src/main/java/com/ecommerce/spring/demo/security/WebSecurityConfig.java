@@ -58,12 +58,15 @@ public class WebSecurityConfig {
     return new BCryptPasswordEncoder();
   }
   
+
+  
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http.cors().and().csrf().disable()
         .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
         .authorizeRequests().antMatchers("/api/auth/**").permitAll()
+//        .authorizeRequests().antMatchers(AUTH_WHITELIST).permitAll()---trying for swagger
         .antMatchers("/api/test/**","/api/user/allProducts","/api/user/sortByPrice").permitAll()
         .anyRequest().authenticated();
     

@@ -90,4 +90,10 @@ public class UserController {
 		Wallet wallet = userService.addBalanceToWallet(amount);
 		return new ResponseEntity<Wallet>(wallet,HttpStatus.ACCEPTED);
 	}
+	
+	@GetMapping("/productDetails/{productId}")
+	public ResponseEntity<Product> getProductDetails(@PathVariable("productId") Long productId) throws ProductException{
+		Product product= userService.getProductDetails(productId);
+		return new ResponseEntity<Product>(product,HttpStatus.ACCEPTED);
+	}
 }

@@ -33,4 +33,6 @@ public interface UserService {
 	public Double checkWalletBalance()throws UserException,WalletException;
 	
 	public Wallet addBalanceToWallet(Double amount)throws UserException;
+	
+	public Product getProductDetails(Long productId)throws ProductException;
 }
