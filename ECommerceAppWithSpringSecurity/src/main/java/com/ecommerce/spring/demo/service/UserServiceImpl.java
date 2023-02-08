@@ -253,17 +253,21 @@ public class UserServiceImpl implements UserService{
 					}
 					Order newOrder = new Order();
 					newOrder.setTotalBill(totalBill);
-					newOrder.setUser(user);
+//					newOrder.setUser(user);
 					newOrder.setCart(list);
 					orderRepository.save(newOrder);
+					user.getOrders().add(newOrder);
+					userRepository.save(user);
+					list.removeAll(list);
 					for (Cart items : list) {
 						Product product = items.getProduct();
 						product.setQuantity(product.getQuantity()-items.getQuantity());
 						productRepository.save(product);
 					}
-					for (Cart items : list) {
-						cartRepository.delete(items);
-					}
+//					for (Cart items : list) {
+//						cartRepository.delete(items);
+//					}
+					
 					return newOrder;
 				}
 				

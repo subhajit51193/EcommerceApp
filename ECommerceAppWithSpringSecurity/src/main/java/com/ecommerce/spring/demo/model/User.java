@@ -50,7 +50,7 @@ public class User {
   @OneToMany(mappedBy = "user")
   private List<Review> reviews;
   
-  @OneToMany(mappedBy = "user")
+  @OneToMany
   private List<Order> orders;
   
   

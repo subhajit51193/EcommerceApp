@@ -28,11 +28,12 @@ public class Order {
 	private Double totalBill;
 	
 	
-	@ManyToOne
-	@JoinColumn(name = "id")
-	@JsonIgnore
-	private User user;
+//	@ManyToOne
+//	@JoinColumn(name = "id")
+//	@JsonIgnore
+//	private User user;
 	
-	@OneToMany(mappedBy = "order")
+	@OneToMany
 	private List<Cart> cart;
+	
 }
