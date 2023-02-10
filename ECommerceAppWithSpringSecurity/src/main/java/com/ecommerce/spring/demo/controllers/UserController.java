@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ecommerce.spring.demo.exceptions.OrderException;
 import com.ecommerce.spring.demo.exceptions.ProductException;
 import com.ecommerce.spring.demo.exceptions.UserException;
 import com.ecommerce.spring.demo.exceptions.WalletException;
@@ -95,5 +96,16 @@ public class UserController {
 	public ResponseEntity<Product> getProductDetails(@PathVariable("productId") Long productId) throws ProductException{
 		Product product= userService.getProductDetails(productId);
 		return new ResponseEntity<Product>(product,HttpStatus.ACCEPTED);
+	}
+	
+	@GetMapping("/orderDetails/{orderId}")
+	public ResponseEntity<Order> getOrderDetails(@PathVariable("orderId") Long orderId) throws UserException, OrderException{
+		Order order = userService.getOrderDetails(orderId);
+		return new ResponseEntity<Order>(order,HttpStatus.ACCEPTED);
+	}
+	@GetMapping("/orderHistory")
+	public ResponseEntity<List<Order>> getOrderHistory() throws UserException, OrderException{
+		List<Order> orders = userService.getOrderHistory();
+		return new ResponseEntity<List<Order>>(orders,HttpStatus.ACCEPTED);
 	}
 }

@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.ecommerce.spring.demo.exceptions.OrderException;
 import com.ecommerce.spring.demo.exceptions.ProductException;
 import com.ecommerce.spring.demo.exceptions.UserException;
 import com.ecommerce.spring.demo.exceptions.WalletException;
@@ -336,6 +337,61 @@ public class UserServiceImpl implements UserService{
 		else {
 			Product foundProduct = opt.get();
 			return foundProduct;
+		}
+	}
+
+	@Override
+	public Order getOrderDetails(Long orderId) throws UserException, OrderException {
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (!(authentication instanceof AnonymousAuthenticationToken)) {
+			String currentUserName = authentication.getName();
+			Optional<User> opt = userRepository.findByUsername(currentUserName);
+			if (opt.isEmpty()) {
+				throw new UserException("User not found please try again...");
+			}
+			else {
+				User user = opt.get();
+				Optional<Order> opt2 = orderRepository.findById(orderId);
+				if (opt2.isEmpty()) {
+					throw new OrderException("Order not found please try again..");
+				}
+				else {
+					Order desiredOrder = opt2.get();
+					return desiredOrder;
+				}
+				
+			}
+		}
+		else {
+			throw new UserException("Please Login and try again!!!");
+		}
+	}
+
+	@Override
+	public List<Order> getOrderHistory() throws UserException, OrderException {
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (!(authentication instanceof AnonymousAuthenticationToken)) {
+			String currentUserName = authentication.getName();
+			Optional<User> opt = userRepository.findByUsername(currentUserName);
+			if (opt.isEmpty()) {
+				throw new UserException("User not found please try again...");
+			}
+			else {
+				User user = opt.get();
+				List<Order> orders = user.getOrders();
+				if (orders.isEmpty()) {
+					throw new OrderException("No History found");
+				}
+				else {
+					return orders;
+				}
+				
+			}
+		}
+		else {
+			throw new UserException("Please Login and try again!!!");
 		}
 	}
 

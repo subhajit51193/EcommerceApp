@@ -11,7 +11,7 @@ import org.springframework.web.context.request.WebRequest;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-	public ResponseEntity<MyErrorDetails> customerExceptionhandler(UserException us,WebRequest rq){
+	public ResponseEntity<MyErrorDetails> userExceptionhandler(UserException us,WebRequest rq){
 		
 		MyErrorDetails err = new MyErrorDetails();
 		err.setTimestamp(LocalDateTime.now());
@@ -21,11 +21,11 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<MyErrorDetails>(err,HttpStatus.NOT_FOUND);
 	}
 	
-	public ResponseEntity<MyErrorDetails> loginHandlerException(UserException us,WebRequest rq){
+	public ResponseEntity<MyErrorDetails> orderHandlerException(OrderException oe,WebRequest rq){
 		
 		MyErrorDetails err = new MyErrorDetails();
 		err.setTimestamp(LocalDateTime.now());
-		err.setMessage(us.getMessage());
+		err.setMessage(oe.getMessage());
 		err.setDetails(rq.getDescription(false));
 		
 		return new ResponseEntity<MyErrorDetails>(err,HttpStatus.NOT_FOUND);

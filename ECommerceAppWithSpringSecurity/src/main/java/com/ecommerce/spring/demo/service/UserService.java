@@ -2,6 +2,7 @@ package com.ecommerce.spring.demo.service;
 
 import java.util.List;
 
+import com.ecommerce.spring.demo.exceptions.OrderException;
 import com.ecommerce.spring.demo.exceptions.ProductException;
 import com.ecommerce.spring.demo.exceptions.UserException;
 import com.ecommerce.spring.demo.exceptions.WalletException;
@@ -35,4 +36,8 @@ public interface UserService {
 	public Wallet addBalanceToWallet(Double amount)throws UserException;
 	
 	public Product getProductDetails(Long productId)throws ProductException;
+	
+	public Order getOrderDetails(Long orderId)throws UserException,OrderException;
+	
+	public List<Order> getOrderHistory()throws UserException,OrderException;;
 }
