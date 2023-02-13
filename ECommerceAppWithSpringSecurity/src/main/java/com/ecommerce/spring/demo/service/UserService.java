@@ -21,7 +21,7 @@ public interface UserService {
 	
 	public String removefromcart(Long productId) throws UserException,ProductException;
 	
-	public List<Product> getAllProducts();
+	
 	
 	public Review giveReview(Long productId,Review review)throws UserException,ProductException;
 	

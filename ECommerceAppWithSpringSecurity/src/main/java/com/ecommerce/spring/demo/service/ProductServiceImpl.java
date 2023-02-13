@@ -1,5 +1,6 @@
 package com.ecommerce.spring.demo.service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -110,6 +111,13 @@ public class ProductServiceImpl implements ProductService{
 			throw new UserException("Please Login and try again!!!");
 		}
 		
+	}
+	
+	@Override
+	public List<Product> getAllProducts() {
+		
+		List<Product> list = productRepository.findAll();
+		return list;
 	}
 
 	

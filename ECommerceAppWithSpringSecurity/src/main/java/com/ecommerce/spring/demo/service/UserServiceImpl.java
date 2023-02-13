@@ -139,12 +139,7 @@ public class UserServiceImpl implements UserService{
 		}
 	}
 
-	@Override
-	public List<Product> getAllProducts() {
-		
-		List<Product> list = productRepository.findAll();
-		return list;
-	}
+	
 
 	@Override
 	public Review giveReview(Long productId,Review review) throws UserException, ProductException {
@@ -330,14 +325,20 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public Product getProductDetails(Long productId) throws ProductException {
 		
-		Optional<Product> opt = productRepository.findById(productId);
-		if (opt.isEmpty()) {
+		if (productId == null) {
 			throw new ProductException("Product Not found or may have been removed");
 		}
 		else {
-			Product foundProduct = opt.get();
-			return foundProduct;
+			Optional<Product> opt = productRepository.findById(productId);
+			if (opt.isEmpty()) {
+				throw new ProductException("Product Not found or may have been removed");
+			}
+			else {
+				Product foundProduct = opt.get();
+				return foundProduct;
+			}
 		}
+		
 	}
 
 	@Override

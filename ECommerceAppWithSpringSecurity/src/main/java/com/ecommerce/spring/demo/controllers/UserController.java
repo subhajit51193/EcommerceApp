@@ -23,6 +23,7 @@ import com.ecommerce.spring.demo.model.Order;
 import com.ecommerce.spring.demo.model.Product;
 import com.ecommerce.spring.demo.model.Review;
 import com.ecommerce.spring.demo.model.Wallet;
+import com.ecommerce.spring.demo.service.ProductService;
 import com.ecommerce.spring.demo.service.UserService;
 
 @RestController
@@ -31,6 +32,9 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private ProductService productService;
 	
 	@GetMapping("/addTocart/{productId}/{quantity}")
 	public ResponseEntity<String> addToCart(@PathVariable("productId") Long productId,@PathVariable("quantity") Long quantity) throws UserException, ProductException{
@@ -52,7 +56,7 @@ public class UserController {
 	
 	@GetMapping("/allProducts")
 	public ResponseEntity<List<Product>> getAllProducts(){
-		List<Product> products = userService.getAllProducts();
+		List<Product> products = productService.getAllProducts();
 		return new ResponseEntity<List<Product>>(products,HttpStatus.ACCEPTED);
 	}
 	

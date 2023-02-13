@@ -58,11 +58,12 @@ public class Product {
 
 
 
-	public Product(Long productId, String productName, String category, Double price) {
+	public Product(Long productId, String productName, String category,Long quantity,Double price) {
 		super();
 		this.productId = productId;
 		this.productName = productName;
 		this.category = category;
+		this.quantity = quantity;
 		this.price = price;
 	}
 

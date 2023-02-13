@@ -1,5 +1,7 @@
 package com.ecommerce.spring.demo.service;
 
+import java.util.List;
+
 import com.ecommerce.spring.demo.exceptions.ProductException;
 import com.ecommerce.spring.demo.exceptions.UserException;
 import com.ecommerce.spring.demo.model.Product;
@@ -12,4 +14,6 @@ public interface ProductService {
 	public String deleteProduct(Long productId)throws ProductException,UserException;
 	
 	public String updateProduct(Product product)throws UserException,ProductException;
+	
+	public List<Product> getAllProducts();
 }
