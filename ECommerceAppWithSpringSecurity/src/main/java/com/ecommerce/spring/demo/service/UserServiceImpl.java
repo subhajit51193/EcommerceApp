@@ -330,13 +330,19 @@ public class UserServiceImpl implements UserService{
 		}
 		else {
 			Optional<Product> opt = productRepository.findById(productId);
-			if (opt.isEmpty()) {
+			if (opt == null) {
 				throw new ProductException("Product Not found or may have been removed");
 			}
 			else {
-				Product foundProduct = opt.get();
-				return foundProduct;
+				if (opt.isEmpty()) {
+					throw new ProductException("Product Not found or may have been removed");
+				}
+				else {
+					Product foundProduct = opt.get();
+					return foundProduct;
+				}
 			}
+			
 		}
 		
 	}

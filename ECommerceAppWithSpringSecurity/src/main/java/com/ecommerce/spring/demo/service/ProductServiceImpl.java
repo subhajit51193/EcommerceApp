@@ -38,21 +38,28 @@ public class ProductServiceImpl implements ProductService{
 		// TODO Auto-generated method stub
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if (!(authentication instanceof AnonymousAuthenticationToken)) {
-			String currentUserName = authentication.getName();
-			Optional<User> opt = userRepository.findByUsername(currentUserName);
-			if (opt.isEmpty()) {
-				throw new UserException("User not found please try again...");
-			}
-			else {
-				
-				Product addedProduct = productRepository.save(product);
-				return addedProduct;
-			}
+		
+		if (authentication == null) {
+			throw new UserException("User not found");
 		}
 		else {
-			throw new UserException("Please Login and try again!!!");
+			if (!(authentication instanceof AnonymousAuthenticationToken)) {
+				String currentUserName = authentication.getName();
+				Optional<User> opt = userRepository.findByUsername(currentUserName);
+				if (opt.isEmpty()) {
+					throw new UserException("User not found please try again...");
+				}
+				else {
+					
+					Product addedProduct = productRepository.save(product);
+					return addedProduct;
+				}
+			}
+			else {
+				throw new UserException("Please Login and try again!!!");
+			}
 		}
+		
 		
 	}
 

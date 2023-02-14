@@ -67,7 +67,7 @@ public class WebSecurityConfig {
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
         .authorizeRequests().antMatchers("/api/auth/**").permitAll()
 //        .authorizeRequests().antMatchers(AUTH_WHITELIST).permitAll()---trying for swagger
-        .antMatchers("/api/test/**","/api/user/allProducts","/api/user/sortByPrice").permitAll()
+        .antMatchers("/api/test/**","/api/user/allProducts","/api/user/sortByPrice","/api/user/productDetails/{productId}").permitAll()
         .anyRequest().authenticated();
     
     http.authenticationProvider(authenticationProvider());

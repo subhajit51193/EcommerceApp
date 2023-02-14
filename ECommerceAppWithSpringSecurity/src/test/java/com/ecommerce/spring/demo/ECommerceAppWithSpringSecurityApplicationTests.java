@@ -39,10 +39,10 @@ class ECommerceAppWithSpringSecurityApplicationTests {
 	@MockBean
 	private ProductRepository productRepository;
 	
-//	@BeforeEach
-//	void setup() throws Exception{
-//		MockitoAnnotations.openMocks(this);
-//	}
+	@BeforeEach
+	void setup() throws Exception{
+		MockitoAnnotations.openMocks(this);
+	}
 		
 	@Test
 	public void getProductsTest() {
@@ -53,13 +53,16 @@ class ECommerceAppWithSpringSecurityApplicationTests {
 		
 	}
 	
-//	@Test
-//	public void saveProductsTest() throws UserException {
-//		Product product = new Product((long)1, "name1", "category1", (long)45, 400.00);
-//		when(productRepository.save(product)).thenReturn(product);
-////		assertEquals(product, productService.addProduct(product));
-//		assertThrows(null, null)
-//	}
+	@Test
+	public void saveProductsTest() {
+		Product product = new Product((long)1, "name1", "category1", (long)45, 400.00);
+		when(productRepository.save(product)).thenReturn(null);
+//		assertEquals(product, productService.addProduct(product));
+		assertThrows(UserException.class, 
+				()-> {
+					productService.addProduct(product);
+				});
+	}
 	
 	@Test
 	public void getProductById_productException(){
