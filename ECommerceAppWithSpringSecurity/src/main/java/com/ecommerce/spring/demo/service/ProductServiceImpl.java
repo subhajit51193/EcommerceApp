@@ -67,28 +67,35 @@ public class ProductServiceImpl implements ProductService{
 	public String deleteProduct(Long productId) throws ProductException,UserException {
 		// TODO Auto-generated method stub
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if (!(authentication instanceof AnonymousAuthenticationToken)) {
-			String currentUserName = authentication.getName();
-			Optional<User> opt = userRepository.findByUsername(currentUserName);
-			if (opt.isEmpty()) {
-				throw new UserException("User not found please try again...");
-			}
-			else {
-				User user = opt.get();
-				Optional<Product> opt2 = productRepository.findById(productId);
-				if (opt2.isEmpty()) {
-					throw new ProductException("Product ID not found please try again with valid id...");
-				}
-				else {
-					Product foundProduct = opt2.get();
-					productRepository.delete(foundProduct);
-					return user.getUsername()+" ypur intended product :"+foundProduct.getProductName()+" has been deleted";
-				}
-			}
+		
+		if (authentication == null) {
+			throw new UserException("User not found please try again...");
 		}
 		else {
-			throw new UserException("Please Login and try again!!!");
+			if (!(authentication instanceof AnonymousAuthenticationToken)) {
+				String currentUserName = authentication.getName();
+				Optional<User> opt = userRepository.findByUsername(currentUserName);
+				if (opt.isEmpty()) {
+					throw new UserException("User not found please try again...");
+				}
+				else {
+					User user = opt.get();
+					Optional<Product> opt2 = productRepository.findById(productId);
+					if (opt2.isEmpty()) {
+						throw new ProductException("Product ID not found please try again with valid id...");
+					}
+					else {
+						Product foundProduct = opt2.get();
+						productRepository.delete(foundProduct);
+						return user.getUsername()+" ypur intended product :"+foundProduct.getProductName()+" has been deleted";
+					}
+				}
+			}
+			else {
+				throw new UserException("Please Login and try again!!!");
+			}
 		}
+		
 	}
 
 	@Override

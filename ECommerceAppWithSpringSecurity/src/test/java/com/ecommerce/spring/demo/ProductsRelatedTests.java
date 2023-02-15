@@ -1,8 +1,11 @@
 package com.ecommerce.spring.demo;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Optional;
@@ -28,7 +31,7 @@ import com.ecommerce.spring.demo.service.UserService;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-class ECommerceAppWithSpringSecurityApplicationTests {
+class ProductsRelatedTests {
 	
 	@Autowired
 	private ProductService productService;
@@ -65,7 +68,7 @@ class ECommerceAppWithSpringSecurityApplicationTests {
 	}
 	
 	@Test
-	public void getProductById_productException(){
+	public void getProductById_productExceptionTest(){
 		
 		when(productRepository.findById(anyLong())).thenReturn(null);
 //		userService.getProductDetails((long)3);
@@ -76,6 +79,14 @@ class ECommerceAppWithSpringSecurityApplicationTests {
 				);
 	}
 	
+//	@Test
+//	public void deleteProduct_productExceptionTest() throws ProductException, UserException {
+//	
+//
+//		
+//		
+//	}
+//	
 	
 		
 
