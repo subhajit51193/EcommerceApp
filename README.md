@@ -35,31 +35,33 @@ In progress...
 
 ## Deployment
 
-As of now it is not deployed anywhere
+As of now it is deployed on Railway Cloud
 
 ```bash
-  isntall and run
-```
+ecommerceapp-production-488e.up.railway.app```
 
 
 ## Installation
 
-Install and run with following properties
+Install and run with following properties if want to run locally
 
 ```bash
 #changing the server port
 server.port=8038
-spring.datasource.url= jdbc:mysql://localhost:3306/eApp?useSSL=false
-spring.datasource.username= root
-spring.datasource.password= sql@subhajit51193
+spring.datasource.url=jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:eApp}
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.datasource.username=${DB_USERNAME:root}
+spring.datasource.password=${DB_PASSWORD:sql@subhajit51193}
 
 #spring.jpa.properties.hibernate.dialect= org.hibernate.dialect.MySQL5InnoDBDialect
 spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
 
 # App Properties
 ecommerce.app.jwtCookieName= subhajit
 ecommerce.app.jwtSecret= subhajitSecretKey
 ecommerce.app.jwtExpirationMs= 86400000
+
 ```
     
 ## Demo
