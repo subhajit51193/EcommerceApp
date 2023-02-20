@@ -402,6 +402,12 @@ public class UserServiceImpl implements UserService{
 		}
 	}
 
+	@Override
+	public String welcomeMessage() {
+		// TODO Auto-generated method stub
+		return "Welcome to Ecommerce App. This is a Demo application to check all the endpoints..Improvement is in progress......";
+	}
+
 		
 
 	

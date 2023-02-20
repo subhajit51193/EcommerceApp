@@ -40,4 +40,6 @@ public interface UserService {
 	public Order getOrderDetails(Long orderId)throws UserException,OrderException;
 	
 	public List<Order> getOrderHistory()throws UserException,OrderException;;
+	
+	public String welcomeMessage();
 }
